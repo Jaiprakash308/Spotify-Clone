@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="./Assets/logo.png">
+    <title>Spotify - Web Player: Music for everyone</title>
+    <style>
+        body {
+            /* font-weight: 500; */
+            /* font-style: italic; */
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: hidden;
+            color: white;
+        }
+
+        .sidebar {
+            background-color: black;
+            width: 300px;
+            margin-right: 0.5rem;
+            border-radius: 1rem;
+            /* means ki 16px 1rem main 16px hoti hai*/
+        }
+
+        .main {
+            display: flex;
+            height: 100vh;
+            padding: 0.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .main-content {
+            background-color: #121212;
+            flex: 1;
+            padding: 0 1.5rem 0 2rem;
+            margin-left: 0.75rem;
+            overflow: auto;
+            /*ye flex toh ye krta hai ki side bar ko content ka hissab se space mil jaye  music player ko content ka hisab se space mil jaye  aur baki bachi space main-content ko mil jayegi */
+        }
+
+        .music-player {
+            background-color: #121212;
+            position: fixed;
+            bottom: 0;
+            display: flex;
+            height: 72px;
+            width: 100%;
+        }
+
+        .nav {
+            display: flex;
+            background-color: #121212;
+            border-radius: 1rem;
+            flex-direction: column;
+            height: 100px;
+            padding: 0.5rem 0.75rem;
+            justify-content: center;
+        }
+
+        .nav-option {
+            line-height: 2.5rem;
+            padding: 0.5rem 0.10rem;
+            opacity: 0.5;
+        }
+
+        .nav-option i {
+            font-size: 1.25rem;
+        }
+
+        .nav-option a {
+            font-size: 1rem;
+            margin-left: 0.8rem;
+
+        }
+
+        .nav-option:hover {
+            opacity: 1;
+        }
+
+        /* .icons{
+            border:2px solid white;
+        }*/
+        .Library {
+            background-color: #121212;
+            border-radius: 1rem;
+            /* justify-content: center; */
+            height: 100%;
+            margin-top: 0.7rem;
+            padding: 0.5rem 0.75rem;
+
+        }
+
+        .option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .Library .option .libra-option img {
+
+            height: 1.25rem;
+            width: 1.25rem;
+        }
+
+        .icons {
+            font-size: 1.25rem;
+            display: flex;
+
+        }
+
+        .icons i {
+            opacity: 0.7;
+            margin-right: 0.9rem;
+        }
+
+        .icons i:hover {
+            opacity: 1;
+        }
+
+        .box {
+            height: 8rem;
+            /* border:2px solid white; */
+            background-color: #232323;
+            border-radius: 1rem;
+            margin: 0.25rem 0 0.75rem 0;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .box2 {
+            height: 8rem;
+            /* border:2px solid white; */
+            background-color: #232323;
+            border-radius: 1rem;
+            margin: 1rem 0 0.75rem 0;
+            padding: 0.5rem 1rem;
+
+
+        }
+
+        .lib-box-p1 {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .lib-box-p2 {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .badge {
+            background-color: #fff;
+            border: none;
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            margin: 0.2rem 0 1rem 0;
+            /* margin-bottom: 6rem; */
+            font-size: 1rem;
+            height: 2rem;
+            width: fit-content;
+        }
+
+        .sticky-nav {
+            display: flex;
+            position: sticky;
+            top: 0;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 1rem 0;
+            background-color: #121212;
+            margin-right: 1rem;
+            /* margin-left: 2rem; */
+            width: 100%;
+            z-index: 6;
+            align-content: center;
+
+
+        }
+
+        .sticky-nav-option {
+            display: flex;
+            justify-content: center;
+            /* height:2rem;  */
+            align-items: center;
+            margin-right: 2rem;
+        }
+
+        .sticky-nav-option button {
+            margin-right: 1rem;
+
+        }
+
+        .dark-badge {
+            background: black;
+            color: white;
+        }
+
+        .dark-badge i {
+            margin-right: 0.4rem;
+        }
+
+        @media(max-width:1000px) {
+            .hide {
+                /* opacity:0; */
+                display: none;
+            }
+        }
+
+        .user-ic {
+            font-size: 1.6rem;
+            /* margin-top:0; */
+        }
+
+        .card {
+            width: 150px;
+            background-color: #232323;
+            border-radius: 0.6rem;
+            padding: 1rem;
+            margin-left: 2rem;
+            margin-top: 2rem;
+
+        }
+
+        .card-image {
+            width: 100%;
+            border-radius: 0.6rem;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card-title {
+            font-weight: 600;
+        }
+
+        .card-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .footer {
+            height: 25rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .line {
+            width: 90%;
+            height: 80%;
+            /* border-top:1px solid white; */
+        }
+
+        .music_bar1 {
+            width: 20%;
+            height: 50px;
+            align-self: center;
+            display: flex;
+            /* border:2px solid white; */
+            align-content: center;
+
+        }
+
+        .music_bar2 {
+            width: 55%;
+            padding-top: 0.5rem;
+            height: 50px;
+            /* border:2px solid white; */
+            display: flex;
+            align-content: center;
+            flex-direction: column;
+            align-self: center;
+            justify-content: center;
+            /* padding: 0 1rem 0 1rem; */
+
+        }
+
+        .music_bar3 {
+            width: 25%;
+            height: 50px;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            /* padding-top:1rem; */
+            padding: 0.3rem;
+            /* justify-content: center; */
+            /* border:2px solid white; */
+            align-content: center;
+            justify-content: space-evenly;
+
+            /* width:55%; */
+
+
+        }
+
+        .paragraph {
+            font-size: 10px;
+            /* border:2px solid black; */
+            padding: 0;
+            padding-bottom: -30px;
+            /* display: flex; */
+            margin-right: 0.4rem;
+            margin-left: 15px;
+            align-items: center;
+            text-align: center;
+            /* flex-direction: column; */
+        }
+
+        .first-p {
+            font-size: 12px;
+            font-weight: bolder;
+        }
+
+        .second-p {
+            font-size: 8px;
+        }
+
+        .he-icon {
+            align-self: center;
+            margin-left: 0.2rem;
+            align-content: center;
+            justify-content: center;
+        }
+
+        .second,
+        .first {
+            width: 100%;
+            height: 25px;
+            display: flex;
+            /* justify-content: space-between; */
+            justify-content: center;
+            gap: 2rem;
+            justify-self: center;
+
+        }
+
+        /* {
+            width:100%;
+            height:25px;
+            border:2px solid white;
+            display: flex;
+        } */
+        .first1 {
+            height: 20px;
+            width: 20px;
+        }
+
+        .progress {
+            width: 60%;
+            appearance: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        .progress::-webkit-slider-runnable-track {
+            background-color: #dddd;
+            border-radius: 100px;
+            height: 0.3rem;
+        }
+
+        .progress::-webkit-slider-thumb {
+            appearance: none;
+            height: 16px;
+            width: 16px;
+            background-color: green;
+            border-radius: 50%;
+            margin-top: -6px;
+            /* accent-color:blue; */
+
+        }
+
+        .progress2::-webkit-slider-thumb {
+            appearance: none;
+            background-color: white;
+            accent-color: white;
+
+
+
+        }
+
+        .accent {
+            accent-color: blue;
+        }
+
+        .playicon {
+            height: 20px;
+            width: 20px;
+            /* border:2px solid white; */
+            /* display: flex; */
+            /* flex-direction: column; */
+            /* justify-content: center; */
+
+            /* align-content: center; */
+            /* align-items: center; */
+            text-align: center;
+        }
+
+        .all-icon {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            justify-self: center;
+            /* font-size:13px; */
+            /* border:2px solid white; */
+            align-self: center;
+
+        }
+
+        .progress2 {
+            appearance: none;
+            width: 40%;
+            accent-color: none;
+        }
+
+        .second-p {
+            margin-right: 2rem;
+        }
+
+        .line {
+            /* border:2px  solid white; */
+            display: flex;
+            flex-wrap: wrap;
+            /* height:100%; */
+            justify-content: space-around;
+            /* margin-bottom: 200px; */
+        }
+
+        .foo {
+            /* opacity: 0.7; */
+            width: 8rem;
+            height: 100%;
+            /* justify-self: center; */
+
+            justify-content: space-between;
+            font-weight: 200;
+            /* border:2px  solid white; */
+            /* margin:3px; */
+        }
+
+        .heading-foo {
+            font-size: 1rem;
+            font-weight: 900;
+            opacity: 1;
+            padding-top: 1rem;
+            color: white;
+            /* background: black; */
+            margin-bottom: 1rem;
+        }
+
+        .footer-5 {
+            padding-top: 1rem;
+        }
+
+        .foo-5-icons {
+            height: 30px;
+            width: 30px;
+            font-size: 1.25rem;
+            /* border:2px solid white; */
+            border-radius: 50%;
+            align-self: center;
+            padding-top: 0.2rem;
+
+            text-align: center;
+            background-color: rgba(40, 35, 35, 0.7);
+            /* background-color:white; */
+        }
+
+        .all-foo-5-icons {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .foo-last {
+            /* display: inline-block; */
+            margin-left: 3rem;
+            border-color: #121212;
+            width: 2%;
+            /* margin:1rem; */
+            /* margin-left: 2rem; */
+            /* text-align: center; */
+            font-size: 15px;
+            opacity: 0.9;
+            align-items: center;
+            /* align-self: center; */
+            /* margin-top:200px; */
+            /* border: 2px solid wheat; */
+            /* margin-top:2rem; */
+
+            margin: 10px;
+            align-items: center;
+
+        }
+
+        footer {
+            height: 500px;
+            display: flex;
+
+            /* padding:100px; */
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+            /* border :2px solid black;  */
+        }
+
+        @media(max-width:1000px) {
+            footer {
+                height: 1500px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+        }
+
+        @media(max-width:800px) {
+
+            .music_bar1,
+            .music_bar3 {
+
+                display: none;
+
+            }
+
+            .music_bar2 {
+                display: inline-flex;
+                align-items: center;
+                margin-left: 22%;
+                justify-content: center;
+            }
+
+            .sidebar {
+                width: 150px;
+                display: none;
+            }
+
+        }
+
+        .footer-pra {
+            margin: 0;
+            position: relative;
+            bottom: 10px;
+            top: 18%;
+            left: 25%;
+            padding: 0;
+            /* border:2px solid white; */
+            width: 50%;
+            /* align-items: center; */
+            align-content: center;
+            justify-content: center;
+            display: flex;
+            justify-self: flex-end;
+            /* padding-top:%; */
+            /*   padding-left:20px;*/
+        }
+
+        .footer {
+            display: flex;
+            ;
+            width: 80%;
+            /* border:2px solid white; */
+            justify-content: space-between;
+        }
+
+        .searchitem1 {
+            opacity: 0;   
+              position: relative;
+            right: 10;
+            /* border:2px solid white; */
+            height: 20px;
+            width:20px;
+        }
+
+        @media(max-width:500px) {
+            .searchitem1 {
+                font-size: 20px;
+                position: relative;
+                right:10px;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="sidebar">
+            <div class="nav">
+                <div class="nav-option" style="opacity:1">
+                    <i class="fa-solid fa-house"></i>
+                    <a href="#">Home</a>
+                </div>
+                <div class="nav-option">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <a href="#">Search</a>
+                </div>
+            </div>
+            <div class="Library">
+                <div class="option">
+                    <div class="libra-option nav-option">
+                        <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                        <img src="./Assets/library_icon.png" alt="">
+                        <a href="#">Your Library</a>
+                    </div>
+                    <div class="icons">
+                        <i class="fa-solid fa-plus"></i>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="lib-box">
+                    <div class="box">
+                        <p class="lib-box-p1">Create your first playlist</p>
+                        <p class="lib-box-p2">It's easy,we'll help you</p>
+                        <button class="badge">Create playlist</button>
+                    </div>
+                    <div class="box">
+                        <p class="lib-box-p1">Let's find some podcasts to follow</p>
+                        <p class="lib-box-p2">We'll keep you updated on new episodes</p>
+                        <button class="badge">Browse prodcast</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="sticky-nav">
+                <div class="nav-icon">
+                    <img src="./Assets/backward_icon.png" alt="">
+                    <img src="./Assets/forward_icon.png " class="hide" alt="">
+                </div>
+
+                <div class="sticky-nav-option">
+                    <button class="badge hide">Explorer premium</button>
+                    <button class="badge dark-badge"><i class="fa-regular fa-circle-down"></i>Install App</button>
+                    <i class="fa-regular fa-circle-user user-ic"></i>
+                </div>
+                <div class="searchitem1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <h2>Recently Played</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <img src="./Assets/card1img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+                </div>
+            </div>
+            <h2>Trending now near you</h2>
+            <!-- <div class="cards-container"> -->
+            <div class="cards-container">
+                <div class="card">
+                    <img src="./Assets/card2img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+                </div>
+                <!-- <h2>Trending now near you</h2> -->
+                <div class="card">
+                    <img src="./Assets/card3img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card4img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card2img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card4img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card1img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+
+            </div>
+            <h2>Featured Charts</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="./Assets/card5img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card6img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top Song - India</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+                <div class="card">
+                    <img src="./Assets/card5img.jpeg" class="card-image" alt="">
+                    <p class="card-title">Top 50 - Global</p>
+                    <p class="card-info">Your daily update of the most played tracks...</p>
+
+                </div>
+            </div>
+            <footer>
+                <div class="footer">
+                    <div class="line">
+                        <div class="footer-1 foo">
+                            <p class="heading-foo">Company</p>
+                            <p>About</p>
+                            <p>Job</p>
+                            <p>For the record</p>
+                        </div>
+                        <div class="footer-2 foo">
+                            <p class="heading-foo">Communities</p>
+                            <p>For artist</p>
+                            <p>Devloper</p>
+                            <p>Advertising</p>
+                            <p>Investers</p>
+                            <p>Vendor</p>
+                        </div>
+                        <div class="footer-3 foo">
+                            <p class="heading-foo">Usefull links</p>
+                            <p>Support</p>
+                            <P>Free mobile app</P>
+                        </div>
+                        <div class="footer-4 foo">
+                            <p class="heading-foo">Spotify plans</p>
+                            <p>Premium individuals</p>
+                            <p>Premium Duo</p>
+                            <p>Premium Family</p>
+                            <p>Premium student</p>
+                            <p>Spotify Free</p>
+                        </div>
+                        <div class="footer-5 foo">
+                            <div class="all-foo-5-icons">
+                                <div class="foo-5-icons"><i class="fa-brands fa-instagram"></i></div>
+                                <div class="foo-5-icons"><i class="fa-brands fa-twitter" style="color: #f5f5f5;"></i>
+                                </div>
+                                <div class="foo-5-icons"><i class="fa-brands fa-facebook"></i></div>
+                            </div>
+                        </div>
+
+                        <br>
+                    </div>
+                </div>
+                <hr class="foo-last">
+                <br>
+                <p class="footer-pra foo-last">© 2024 Spotify AB</p>
+            </footer>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="music-player">
+            <div class="music_bar1">
+                <img src="./Assets/card1img.jpeg" alt=""
+                    style="height:40px; align-items:center; align-self: center;margin-left:0.5rem">
+                <div class="paragraph">
+                    <p class="first-p">Daylignt
+                        <br> <a href="#" class="second-p">David kushner</a>
+
+                    </p>
+
+                </div>
+                <i class="fa-regular fa-heart icons he-icon"></i>
+                <img src="./Assets/player_icon5.png"
+                    style="height:20px; align-items:center; align-self: center;margin-left:0.5rem" alt="">
+
+            </div>
+            <div class="music_bar2">
+                <div class="first">
+                    <img src="./Assets/player_icon1.png" class="first1" alt="">
+                    <img src="./Assets/player_icon2.png" class="first1" alt="">
+                    <img src="./Assets/player_icon3.png" class="first1" alt="">
+                    <img src="./Assets/player_icon4.png" class="first1" alt="">
+                    <img src="./Assets/player_icon5.png" class="first1" alt="">
+                </div>
+                <div class="second">
+                    <span class="current-time">00:00</span>
+                    <input type="range" name="" max="100" id="" class="progress accent"> <span
+                        class="current-time">3:33</span>
+                </div>
+            </div>
+            <div class="music_bar3">
+                <div class="all-icon">
+                    <div class="playicon">
+                        <i class="fa-solid fa-play"></i>
+
+                    </div>
+                    <i class="fa-solid fa-microphone-lines"></i>
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-user-large"></i>
+                    <i class="fa-solid fa-volume-high"></i>
+                    <input type="range" class="progress progress2" max="100" name="" id="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
